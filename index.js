@@ -29,7 +29,7 @@ app.get('/', function (req, res) {
 
     if (!cat) {
         res.send(
-            '<p>Use <strong>?cat=<em>{Name of Wikimedia Commons category}</em></strong> (e.g. Category:CH-BAR_Collection_First_World_War_Switzerland) to download a CSV of all the categories for each file in that category.</p>'
+            '<p>Use <strong>http://' + req.hostname + '?cat=<em>{Name of Wikimedia Commons category}</em></strong> (e.g. Category:CH-BAR_Collection_First_World_War_Switzerland) to download a CSV of all the categories for each file in that category.</p>'
         );
         return;
     }
