@@ -4,6 +4,21 @@
     <title>catexport - export Wikimedia Commons categories of uploaded files</title>
 </head>
 <body>
-    <p>Use <strong>http://catexport.herokuapp.com?cat=<em>{Name of Wikimedia Commons category}</em></strong> (e.g. Category:CH-BAR_Collection_First_World_War_Switzerland) to download a CSV of all the categories for each file in that category.</p>
+    <h1>catexport - export Wikimedia Commons categories of uploaded files as CSV</h1>
+
+    <p>The aims of this projects are GLAM institutions that provide their data to the Wikimedia Commons projects and want to extract the categorization done by the community in a structured way. This tool uses the API of Wikimedia Commons in the background. It generates CSV with the following format:</p>
+    <pre>
+filename,category
+    </pre>
+
+    <p>If a file has multiple categories, there will be multiple entries for it. The first column acts as a unique identifier of the file.</p>
+
+    <h2>Usage</h2>
+    <p>Use <strong>http://catexport.herokuapp.com?cat=<em>{Name of Wikimedia Commons category}</em></strong> to download a CSV of all the categories for each file in that category.</p>
+    <p>Examples: </p>
+    <ul>
+        <li><a href="http://catexport.herokuapp.com?cat=Category:CH-BAR_Collection_First_World_War_Switzerland">http://catexport.herokuapp.com?cat=Category:CH-BAR_Collection_First_World_War_Switzerland</a></li>
+        <li><a href="http://catexport.herokuapp.com?cat=Category:CH-NB-Collection_Gugelmann">http://catexport.herokuapp.com?cat=Category:CH-NB-Collection_Gugelmann</a></li>
+    </ul>
 </body>
 </html>
