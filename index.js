@@ -26,17 +26,31 @@ var getResultPage = function(query, cb, end) {
 
 app.get('/', function (req, res) {
     var cat = req.query.cat || null; 
+    console.log("cat: " + cat);
 
     if (!cat) {
-        res.send(
-            '<p>Use <strong>http://' + req.hostname + '?cat=<em>{Name of Wikimedia Commons category}</em></strong> (e.g. Category:CH-BAR_Collection_First_World_War_Switzerland) to download a CSV of all the categories for each file in that category.</p>'
-        );
+        var options = {
+            root: __dirname,
+            dotfiles: 'deny',
+            headers: {
+                'x-timestamp': Date.now(),
+                'x-sent': true
+            }
+        };
+        res.sendFile('index.html', options, function (err) {
+            if (err) {
+              console.log(err);
+              res.status(err.status).end();
+            }
+            else {
+              console.log('Sent: index.html');
+            }
+        });
         return;
     }
-    res.attachment('catexport_' + cat + '.csv');
-    res.write('filename,category');
     getResultPage(
         {
+            'first': true,
             'category': cat,
             'continue_obj': {
                 'continue': ''
