@@ -6,10 +6,10 @@ var _ = require('underscore');
 
 var api_url = 'https://commons.wikimedia.org/w/api.php'
 
-var getResultPage = function(query, cb, end) {
+var getResultPage = function(query, cb, end, first) {
     Request
         .get(api_url)
-        .query('action=query&generator=categorymembers&gcmtype=file&gcmlimit=10&cllimit=max&prop=categories')
+        .query('action=query&generator=categorymembers&gcmtype=file&gcmlimit=100&cllimit=max&prop=categories')
         .query({'format': 'json'})
         .query({'gcmtitle': query.category})
         .query(query.continue_obj)
