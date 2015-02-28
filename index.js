@@ -14,12 +14,12 @@ var getResultPage = function(query, cb, end) {
         .query({'gcmtitle': query.category})
         .query(query.continue_obj)
         .end(function(res){
-            cb(res.body);
+            cb(res.body, first);
             if (!res.body['continue']) {
                 end();
             } else {
                 query['continue_obj'] = res.body['continue'];
-                getResultPage(query, cb, end);
+                getResultPage(query, cb, end, false);
             }
         });
 };
@@ -56,17 +56,33 @@ app.get('/', function (req, res) {
                 'continue': ''
             }
         },
-        function(response) {
+        function(response, first) {
+            console.log(response, first);
+            if (!response.query) {
+                if (response.error) {
+                   res.write("<p style='color: red; font-weight: bold;'>" + response.error.info + " (" + response.error.code + "): " + cat);
+                } else {
+                    res.write("<pi style='color: red; font-weight: bold;'>Error: No data found for category '" + cat + "'!<p>");
+                }
+                res.end();
+                return;
+            }
+            if (first) {
+                res.attachment('catexport_' + cat + '.csv');
+                res.write('\"filename\",\"category\"');
+            }
             _.each(response.query.pages, function(page) {
                 _.each(page.categories, function(category) {
-                    console.log('\n\"' + page.title + '\",\"' + category.title + '\"');
-                    res.write(page.title + ',' + category.title);
+                    console.log('\"' + page.title + '\",\"' + category.title + '\"');
+                    res.write('\n\"' + page.title + '\",\"' + category.title + '\"');
                 });
             });
         },
         function() {
             res.end();
-        }
+            console.log('Finished.');
+        },
+        true
     );
 })
 
